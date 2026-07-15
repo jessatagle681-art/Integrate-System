@@ -49,14 +49,12 @@ with app.app_context():
 from routes.auth_routes import bp as auth_bp
 from routes.event_routes import bp as event_bp
 from routes.voting_routes import bp as voting_bp
-from routes.admin_routes import bp as admin_bp
 from routes.organizer_routes import bp as organizer_bp
 from routes.results_routes import bp as results_bp
 
 app.register_blueprint(auth_bp)
 app.register_blueprint(event_bp)
 app.register_blueprint(voting_bp)
-app.register_blueprint(admin_bp)
 app.register_blueprint(organizer_bp)
 app.register_blueprint(results_bp)
 
