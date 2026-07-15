@@ -1,4 +1,3 @@
-
 import os
 import sys
 from pathlib import Path
@@ -11,7 +10,7 @@ INSTANCE_DIR.mkdir(exist_ok=True)
 
 sys.path.insert(0, str(BASE_DIR))
 
-app = Flask(_name_, template_folder='templates', static_folder='static')
+app = Flask(__name__, template_folder='templates', static_folder='static')
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'integrated-portal-secret-key')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + str(INSTANCE_DIR / 'integrated_portal.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
