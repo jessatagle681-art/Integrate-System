@@ -1,0 +1,15 @@
+{% extends 'base.html' %} {% block title %}Audit Logs | Admin{% endblock %} {%
+block content %}
+<div class="container">
+  <h1>Audit Logs</h1>
+  {% if logs %}
+  <ul>
+    {% for l in logs %}
+    <li>{{ l }}</li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>No audit logs available.</p>
+  {% endif %}
+</div>
+{% endblock %}

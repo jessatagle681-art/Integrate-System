@@ -1,0 +1,27 @@
+{% extends 'base.html' %} {% block title %}Dashboard | Integrated Portal{%
+endblock %} {% block content %}
+<h2>Unified Dashboard</h2>
+<p class="muted">
+  Hello {{ user.name }} — you can access both school events and secure voting
+  from here.
+</p>
+<div class="grid">
+  <div class="card">
+    <h3>Events</h3>
+    <p>Browse events, register, track attendance, and view certificates.</p>
+    <a class="btn" href="{{ url_for('events.index') }}">Open Events</a>
+  </div>
+  <div class="card">
+    <h3>Voting</h3>
+    <p>View elections, cast your ballot, and see results.</p>
+    <a class="btn" href="{{ url_for('voting.index') }}">Open Voting</a>
+  </div>
+  {% if user.role == 'admin' %}
+  <div class="card">
+    <h3>Admin</h3>
+    <p>Manage dashboard overview for users, events, and elections.</p>
+    <a class="btn" href="{{ url_for('admin.dashboard') }}">Open Admin</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

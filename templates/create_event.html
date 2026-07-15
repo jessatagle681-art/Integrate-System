@@ -1,0 +1,111 @@
+{% extends 'base.html' %} {% block title %}Create Event | Organizer{% endblock
+%} {% block head_extras %}
+<style>
+  .create-event-page {
+    max-width: 900px;
+    margin: 32px auto;
+    padding: 0 16px;
+  }
+  .create-card {
+    background: #ffffff;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.06);
+  }
+  .create-card h1 {
+    margin-bottom: 12px;
+  }
+  .field-group {
+    display: grid;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .field-group label {
+    font-weight: 600;
+    color: #1f2937;
+  }
+  .field-group input,
+  .field-group textarea {
+    width: 100%;
+    border: 1px solid rgba(15, 23, 42, 0.12);
+    border-radius: 14px;
+    padding: 14px 16px;
+    font-size: 1rem;
+  }
+  .actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+</style>
+{% endblock %} {% block content %}
+<div class="create-event-page">
+  <div class="create-card">
+    <h1>Create New Event</h1>
+    <p class="muted">
+      Fill in the event details and publish it for attendees to register.
+    </p>
+
+    <form method="post">
+      <div class="field-group">
+        <label for="title">Event Title</label>
+        <input
+          id="title"
+          name="title"
+          type="text"
+          placeholder="Enter event title"
+          required
+        />
+      </div>
+      <div class="field-group">
+        <label for="description">Description</label>
+        <textarea
+          id="description"
+          name="description"
+          rows="5"
+          placeholder="Write a short event description"
+        ></textarea>
+      </div>
+      <div class="field-group">
+        <label for="location">Location</label>
+        <input
+          id="location"
+          name="location"
+          type="text"
+          placeholder="Enter event location"
+        />
+      </div>
+      <div
+        class="field-group"
+        style="
+          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+          display: grid;
+          gap: 16px;
+        "
+      >
+        <div>
+          <label for="event_date">Date</label>
+          <input id="event_date" name="event_date" type="date" />
+        </div>
+        <div>
+          <label for="event_time">Time</label>
+          <input id="event_time" name="event_time" type="time" />
+        </div>
+      </div>
+      <div class="field-group">
+        <label>
+          <input type="checkbox" name="has_voting" value="1" /> Enable voting
+          for this event
+        </label>
+      </div>
+      <div class="actions">
+        <button class="btn btn-primary" type="submit">Publish Event</button>
+        <a class="btn btn-secondary" href="{{ url_for('organizer.dashboard') }}"
+          >Cancel</a
+        >
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

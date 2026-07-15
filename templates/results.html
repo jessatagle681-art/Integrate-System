@@ -1,0 +1,74 @@
+{% extends 'base.html' %} {% block title %}Results | Integrated Portal{%
+endblock %} {% block head_extras %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/modules.css') }}"
+/>
+{% endblock %} {% block content %}
+<div class="module-layout">
+  <aside class="module-sidebar">
+    <h3>Voting</h3>
+    <nav class="module-nav">
+      <a
+        class="{% if request.path == url_for('voting.index') %}active{% endif %}"
+        href="{{ url_for('voting.index') }}"
+        >🗳️ Elections</a
+      >
+      <a
+        class="{% if request.path == url_for('voting.history') %}active{% endif %}"
+        href="{{ url_for('voting.history') }}"
+        >📜 My Votes</a
+      >
+      <a
+        class="{% if request.path == url_for('voting.results') %}active{% endif %}"
+        href="{{ url_for('voting.results') }}"
+        >📊 Results</a
+      >
+      <a
+        class="{% if request.path == url_for('voting.elections') %}active{% endif %}"
+        href="{{ url_for('voting.elections') }}"
+        >📁 All Elections</a
+      >
+    </nav>
+  </aside>
+  <main class="module-main">
+    <div class="module-header">
+      <div>
+        <h1>Election Results</h1>
+        <p class="muted">
+          See vote totals for each election and review the winners from past
+          contests.
+        </p>
+      </div>
+    </div>
+
+    {% if elections %}
+    <div class="module-grid">
+      {% for e in elections %}
+      <article class="section-card">
+        <div class="section-header">
+          <h2>{{ e.title }}</h2>
+          <span>{{ e.status|capitalize }}</span>
+        </div>
+        {% set counts = election_results.get(e.id, []) %} {% if counts %}
+        <div class="list-block">
+          {% for item in counts %}
+          <li>
+            <strong>{{ item.candidate.name }}</strong> — {{ item.votes }} votes
+          </li>
+          {% endfor %}
+        </div>
+        {% else %}
+        <p>No candidates or votes yet.</p>
+        {% endif %}
+      </article>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+      No election results are available at this time.
+    </div>
+    {% endif %}
+  </main>
+</div>
+{% endblock %}

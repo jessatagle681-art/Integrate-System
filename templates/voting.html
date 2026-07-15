@@ -1,0 +1,135 @@
+{% extends 'base.html' %} {% block title %}Voting | Integrated Portal{% endblock
+%} {% block head_extras %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/modules.css') }}"
+/>
+{% endblock %} {% block content %}
+<div class="module-layout">
+  <aside class="module-sidebar">
+    <h3>Voting</h3>
+    <nav class="module-nav">
+      <a
+        class="{% if request.path == url_for('voting.index') %}active{% endif %}"
+        href="{{ url_for('voting.index') }}"
+        >🗳️ Elections</a
+      >
+      <a
+        class="{% if request.path == url_for('voting.history') %}active{% endif %}"
+        href="{{ url_for('voting.history') }}"
+        >📜 My Votes</a
+      >
+      <a
+        class="{% if request.path == url_for('voting.results') %}active{% endif %}"
+        href="{{ url_for('voting.results') }}"
+        >📊 Results</a
+      >
+      <a
+        class="{% if request.path == url_for('voting.elections') %}active{% endif %}"
+        href="{{ url_for('voting.elections') }}"
+        >📁 All Elections</a
+      >
+    </nav>
+  </aside>
+
+  <main class="module-main">
+    <div class="module-header">
+      <div>
+        <h1>🗳️ Voting Board</h1>
+        <p class="muted">
+          Review active elections, closed contests, and take action with a clear
+          voting overview.
+        </p>
+      </div>
+    </div>
+
+    <section class="section-card">
+      <div class="section-header">
+        <h2>Active Elections</h2>
+        <span>{{ active_elections|length }} active</span>
+      </div>
+      {% if active_elections %}
+      <div class="module-grid">
+        {% for election in active_elections %}
+        <article class="election-card">
+          <div class="card-top">
+            <span class="badge badge-success">Active</span>
+            <span class="card-date"
+              >{{ election.created_at.strftime('%b %d') }}</span
+            >
+          </div>
+          <h3>{{ election.title }}</h3>
+          <p class="muted">
+            {{ election.description or 'Vote now to shape school leadership and
+            event representation.' }}
+          </p>
+          <div class="meta">
+            <span
+              >{{ election.event_id and ('Event #' ~ election.event_id) or
+              'General Election' }}</span
+            >
+            <span
+              >{{ election.status|capitalize }} • Created {{
+              election.created_at.strftime('%Y') }}</span
+            >
+          </div>
+          <div class="card-actions">
+            <a
+              class="btn btn-primary"
+              href="{{ url_for('voting.ballot', election_id=election.id) }}"
+              >Vote Now</a
+            >
+            <a class="btn btn-secondary" href="{{ url_for('voting.results') }}"
+              >Results</a
+            >
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-state">No active elections currently available.</div>
+      {% endif %}
+    </section>
+
+    <section class="section-card">
+      <div class="section-header">
+        <h2>Closed Elections</h2>
+        <span>{{ closed_elections|length }} closed</span>
+      </div>
+      {% if closed_elections %}
+      <div class="module-grid">
+        {% for election in closed_elections %}
+        <article class="election-card">
+          <div class="card-top">
+            <span class="badge badge-muted">Closed</span>
+            <span class="card-date"
+              >{{ election.created_at.strftime('%b %d') }}</span
+            >
+          </div>
+          <h3>{{ election.title }}</h3>
+          <p class="muted">
+            {{ election.description or 'Review past elections and open the
+            results to see how the community voted.' }}
+          </p>
+          <div class="meta">
+            <span
+              >{{ election.event_id and ('Event #' ~ election.event_id) or
+              'General Election' }}</span
+            >
+            <span>Status: {{ election.status|capitalize }}</span>
+          </div>
+          <div class="card-actions">
+            <a class="btn btn-secondary" href="{{ url_for('voting.results') }}"
+              >View Results</a
+            >
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-state">No closed election records found yet.</div>
+      {% endif %}
+    </section>
+  </main>
+</div>
+{% endblock %}

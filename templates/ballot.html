@@ -1,0 +1,68 @@
+{% extends 'base.html' %} {% block title %}Ballot | Integrated Portal{% endblock
+%} {% block head_extras %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/modules.css') }}"
+/>
+{% endblock %} {% block content %}
+<div class="module-layout">
+  <aside class="module-sidebar">
+    <h3>Vote</h3>
+    <nav class="module-nav">
+      <a
+        class="{% if request.path == url_for('voting.index') %}active{% endif %}"
+        href="{{ url_for('voting.index') }}"
+        >🗳️ Elections</a
+      >
+      <a
+        class="{% if request.path == url_for('voting.history') %}active{% endif %}"
+        href="{{ url_for('voting.history') }}"
+        >📜 My Votes</a
+      >
+      <a
+        class="{% if request.path == url_for('voting.results') %}active{% endif %}"
+        href="{{ url_for('voting.results') }}"
+        >📊 Results</a
+      >
+      <a
+        class="{% if request.path == url_for('voting.elections') %}active{% endif %}"
+        href="{{ url_for('voting.elections') }}"
+        >📁 All Elections</a
+      >
+    </nav>
+  </aside>
+  <main class="module-main">
+    <div class="module-header">
+      <div>
+        <h1>{{ election.title }}</h1>
+        <p class="muted">
+          Choose your preferred candidate and submit your ballot.
+        </p>
+      </div>
+    </div>
+    {% if existing_vote %}
+    <section class="section-card">
+      <p class="muted">
+        You already voted on {{ existing_vote.created_at.strftime('%b %d, %Y')
+        if existing_vote.created_at else existing_vote.created_at }}
+      </p>
+      <p>Your choice: <strong>{{ existing_vote.choice }}</strong></p>
+    </section>
+    {% else %}
+    <form method="post" class="module-grid">
+      {% for c in candidates %}
+      <label class="candidate-card">
+        <input type="radio" name="choice" value="{{ c.id }}" required />
+        <div>
+          <strong>{{ c.name }}</strong>
+          <div class="muted">{{ c.position }}</div>
+          <p>{{ c.description or 'No candidate description available.' }}</p>
+        </div>
+      </label>
+      {% endfor %}
+      <button class="btn btn-primary" type="submit">Submit Vote</button>
+    </form>
+    {% endif %}
+  </main>
+</div>
+{% endblock %}

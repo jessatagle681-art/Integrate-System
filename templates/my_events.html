@@ -1,0 +1,25 @@
+{% extends 'base.html' %} {% block title %}My Events | Integrated Portal{%
+endblock %} {% block content %}
+<div class="container" style="max-width: 1000px; margin: 32px auto">
+  <h1>My Events</h1>
+  {% if events %}
+  <div class="row g-3">
+    {% for event in events %}
+    <div class="col-4">
+      <div class="card p-3">
+        <h5>{{ event.title }}</h5>
+        <p>{{ event.description or 'No description' }}</p>
+        <a
+          href="{{ url_for('events.event_detail', event_id=event.id) }}"
+          class="btn btn-sm btn-primary"
+          >View</a
+        >
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p>You have no registered events.</p>
+  {% endif %}
+</div>
+{% endblock %}

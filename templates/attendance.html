@@ -1,0 +1,15 @@
+{% extends 'base.html' %} {% block title %}Attendance | Integrated Portal{%
+endblock %} {% block content %}
+<div class="container" style="max-width: 900px; margin: 32px auto">
+  <h1>Attendance Records</h1>
+  {% if records %}
+  <ul>
+    {% for r in records %}
+    <li>{{ r.event_id }} - {{ r.time_in }} - {{ r.status }}</li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>No attendance records.</p>
+  {% endif %}
+</div>
+{% endblock %}

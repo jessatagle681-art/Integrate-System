@@ -1,0 +1,239 @@
+{% extends 'base.html' %} {% block title %}Organizer Dashboard | Integrated
+Portal{% endblock %} {% block head_extras %}
+<style>
+  .organizer-page {
+    max-width: 1200px;
+    margin: 24px auto;
+    padding: 0 16px;
+  }
+  .organizer-grid {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 24px;
+  }
+  .organizer-sidebar {
+    background: linear-gradient(180deg, #eef6ff 0%, #ffffff 100%);
+    border: 1px solid rgba(37, 99, 235, 0.18);
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.06);
+  }
+  .organizer-sidebar h3 {
+    margin-bottom: 18px;
+    color: #1d4ed8;
+  }
+  .organizer-sidebar .sidebar-link {
+    display: block;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+    border-radius: 16px;
+    color: #1f2937;
+    text-decoration: none;
+    background: #f8fbff;
+    border: 1px solid transparent;
+    transition: 0.18s ease;
+  }
+  .organizer-sidebar .sidebar-link:hover,
+  .organizer-sidebar .sidebar-link.active {
+    background: rgba(37, 99, 235, 0.12);
+    border-color: rgba(37, 99, 235, 0.24);
+    color: #1d4ed8;
+  }
+  .organizer-main {
+    display: grid;
+    gap: 24px;
+  }
+  .hero-card,
+  .stats-card,
+  .events-card {
+    background: #ffffff;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 24px;
+    padding: 28px;
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.06);
+  }
+  .hero-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 18px;
+  }
+  .hero-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: 999px;
+    background: rgba(37, 99, 235, 0.12);
+    color: #1d4ed8;
+    font-weight: 700;
+  }
+  .hero-card h1 {
+    margin: 0 0 10px;
+    font-size: clamp(2rem, 2.4vw, 2.6rem);
+  }
+  .hero-card p {
+    color: #475569;
+    margin: 0;
+  }
+  .stat-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+  .stat-card {
+    border-radius: 20px;
+    background: linear-gradient(180deg, rgba(37, 99, 235, 0.08), #ffffff 100%);
+    padding: 22px;
+  }
+  .stat-card strong {
+    display: block;
+    font-size: 2rem;
+    margin-top: 12px;
+    color: #1d4ed8;
+  }
+  .stat-card span {
+    color: #475569;
+  }
+  .events-card h3 {
+    margin-top: 0;
+  }
+  .event-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    align-items: center;
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+  }
+  .event-item:last-child {
+    border-bottom: none;
+  }
+  .event-item .event-info {
+    display: grid;
+    gap: 6px;
+  }
+  .event-item .event-status {
+    font-size: 0.9rem;
+    color: #0f172a;
+    background: rgba(16, 185, 129, 0.12);
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-weight: 700;
+  }
+  .event-item .event-meta {
+    color: #64748b;
+    font-size: 0.95rem;
+  }
+  .button-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .button-row .btn {
+    padding: 12px 20px;
+  }
+  @media (max-width: 900px) {
+    .organizer-grid {
+      grid-template-columns: 1fr;
+    }
+    .hero-top {
+      flex-direction: column;
+    }
+  }
+</style>
+{% endblock %} {% block content %}
+<div class="organizer-page">
+  <div class="organizer-grid">
+    <aside class="organizer-sidebar">
+      <h3>Organizer Menu</h3>
+      <a class="sidebar-link active" href="{{ url_for('organizer.dashboard') }}"
+        >🏠 Dashboard</a
+      >
+      <a class="sidebar-link" href="{{ url_for('organizer.create_event') }}"
+        >📅 Create Event</a
+      >
+      <a class="sidebar-link" href="{{ url_for('events.my_events') }}"
+        >📋 Registrations</a
+      >
+      <a class="sidebar-link" href="{{ url_for('events.attendance') }}"
+        >✅ Attendance</a
+      >
+      <a class="sidebar-link" href="{{ url_for('events.notifications') }}"
+        >💬 Feedback</a
+      >
+      <a class="sidebar-link" href="{{ url_for('auth.dashboard') }}"
+        >📊 Reports</a
+      >
+      <a class="sidebar-link" href="{{ url_for('auth.logout') }}">🚪 Logout</a>
+    </aside>
+
+    <main class="organizer-main">
+      <section class="hero-card">
+        <div class="hero-top">
+          <div>
+            <span class="hero-pill">👨‍🏫 Organizer Dashboard</span>
+            <h1>Welcome back, {{ user.name }}.</h1>
+            <p>
+              Manage events, view registrations, track attendance, collect
+              feedback, and keep your reports in one place.
+            </p>
+          </div>
+        </div>
+        <div class="button-row">
+          <a
+            class="btn btn-primary"
+            href="{{ url_for('organizer.create_event') }}"
+            >Create New Event</a
+          >
+          <a class="btn btn-secondary" href="{{ url_for('events.my_events') }}"
+            >View Registrations</a
+          >
+        </div>
+      </section>
+
+      <section class="stats-card">
+        <div class="stat-grid">
+          <div class="stat-card">
+            <span>Events Created</span>
+            <strong>{{ stats.events }}</strong>
+          </div>
+          <div class="stat-card">
+            <span>Total Registrations</span>
+            <strong>{{ stats.registrations }}</strong>
+          </div>
+          <div class="stat-card">
+            <span>Attendance Check-ins</span>
+            <strong>{{ stats.attendance }}</strong>
+          </div>
+          <div class="stat-card">
+            <span>Feedback Items</span>
+            <strong>{{ stats.feedback }}</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="events-card">
+        <h3>My Events</h3>
+        {% if events %} {% for event in events %}
+        <div class="event-item">
+          <div class="event-info">
+            <strong>{{ event.title }}</strong>
+            <div class="event-meta">
+              {{ event.event_date or 'Date TBA' }} • {{ event.location or
+              'Location TBA' }}
+            </div>
+          </div>
+          <div class="event-status">{{ event.status|capitalize }}</div>
+        </div>
+        {% endfor %} {% else %}
+        <p class="muted">
+          No events created yet. Start by creating your first event.
+        </p>
+        {% endif %}
+      </section>
+    </main>
+  </div>
+</div>
+{% endblock %}

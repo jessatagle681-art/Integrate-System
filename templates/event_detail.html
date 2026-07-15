@@ -1,0 +1,12 @@
+{% extends 'base.html' %} {% block title %}Event Detail | Integrated Portal{%
+endblock %} {% block content %}
+<div class="container" style="max-width: 900px; margin: 32px auto">
+  <h1>{{ event.title }}</h1>
+  <p>{{ event.description or 'No description' }}</p>
+  <p><strong>Date:</strong> {{ event.event_date }}</p>
+  <p><strong>Location:</strong> {{ event.location }}</p>
+  <form method="post">
+    <button class="btn btn-primary" type="submit">Register</button>
+  </form>
+</div>
+{% endblock %}

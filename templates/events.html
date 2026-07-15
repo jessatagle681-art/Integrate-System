@@ -1,0 +1,231 @@
+{% extends 'base.html' %} {% block title %}Events | Integrated Portal{% endblock
+%} {% block head_extras %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/modules.css') }}"
+/>
+{% endblock %} {% block content %}
+<div class="module-layout">
+  <aside class="module-sidebar">
+    <h3>Events</h3>
+    <nav class="module-nav">
+      <a
+        class="{% if request.path == url_for('events.index') %}active{% endif %}"
+        href="{{ url_for('events.index') }}"
+        >📅 All Events</a
+      >
+      <a
+        class="{% if request.path.startswith(url_for('events.my_events')) %}active{% endif %}"
+        href="{{ url_for('events.my_events') }}"
+        >🎟️ My Events</a
+      >
+      <a
+        class="{% if request.path == url_for('events.attendance') %}active{% endif %}"
+        href="{{ url_for('events.attendance') }}"
+        >✅ Attendance</a
+      >
+      <a
+        class="{% if request.path == url_for('events.certificates') %}active{% endif %}"
+        href="{{ url_for('events.certificates') }}"
+        >🏆 Certificates</a
+      >
+      <a
+        class="{% if request.path == url_for('events.notifications') %}active{% endif %}"
+        href="{{ url_for('events.notifications') }}"
+        >🔔 Notifications</a
+      >
+    </nav>
+  </aside>
+
+  <main class="module-main">
+    <div class="module-header">
+      <div>
+        <h1>📅 Events Module</h1>
+        <p class="muted">
+          Browse upcoming, active, and completed school events with quick access
+          to registration, details, and voting.
+        </p>
+      </div>
+      <form
+        method="get"
+        action="{{ url_for('events.index') }}"
+        class="module-search"
+      >
+        <input
+          type="search"
+          name="q"
+          placeholder="Search events..."
+          value="{{ q or '' }}"
+        />
+        <button type="submit">Search</button>
+      </form>
+    </div>
+
+    <section class="section-card">
+      <div class="section-header">
+        <h2>Upcoming Events</h2>
+        <span>{{ upcoming_events|length }} events</span>
+      </div>
+      {% if upcoming_events %}
+      <div class="module-grid">
+        {% for event in upcoming_events %}
+        <article class="event-card">
+          <div class="card-top">
+            <span class="badge badge-success">Upcoming</span>
+            <span class="card-date"
+              >{{ event.event_date.strftime('%b %d') if event.event_date else
+              'TBA' }}</span
+            >
+          </div>
+          <h3>{{ event.title }}</h3>
+          <div class="meta">
+            <span>{{ event.location or 'Location TBA' }}</span>
+            <span
+              >Organized by {{ event.organizer.name if event.organizer else
+              'Campus Team' }}</span
+            >
+          </div>
+          <p>
+            {{ event.description[:120] }}{% if event.description and
+            event.description|length > 120 %}...{% endif %}
+          </p>
+          <div class="card-actions">
+            <a
+              class="btn btn-secondary"
+              href="{{ url_for('events.event_detail', event_id=event.id) }}"
+              >Details</a
+            >
+            {% if user.role == 'student' %}
+            <form
+              method="post"
+              action="{{ url_for('events.register_event', event_id=event.id) }}"
+              class="inline-form"
+            >
+              <button class="btn btn-primary" type="submit">Register</button>
+            </form>
+            {% endif %} {% if event.has_voting and elections.get(event.id) %}
+            <a
+              class="btn btn-primary"
+              href="{{ url_for('voting.ballot', election_id=elections.get(event.id).id) }}"
+              >Open Voting</a
+            >
+            {% endif %}
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-state">No upcoming events found.</div>
+      {% endif %}
+    </section>
+
+    <section class="section-card">
+      <div class="section-header">
+        <h2>Ongoing Events</h2>
+        <span>{{ ongoing_events|length }} events</span>
+      </div>
+      {% if ongoing_events %}
+      <div class="module-grid">
+        {% for event in ongoing_events %}
+        <article class="event-card">
+          <div class="card-top">
+            <span class="badge badge-warning">Ongoing</span>
+            <span class="card-date"
+              >{{ event.event_date.strftime('%b %d') if event.event_date else
+              'TBA' }}</span
+            >
+          </div>
+          <h3>{{ event.title }}</h3>
+          <div class="meta">
+            <span>{{ event.location or 'Location TBA' }}</span>
+            <span
+              >Organized by {{ event.organizer.name if event.organizer else
+              'Campus Team' }}</span
+            >
+          </div>
+          <p>
+            {{ event.description[:120] }}{% if event.description and
+            event.description|length > 120 %}...{% endif %}
+          </p>
+          <div class="card-actions">
+            <a
+              class="btn btn-secondary"
+              href="{{ url_for('events.event_detail', event_id=event.id) }}"
+              >Details</a
+            >
+            {% if user.role == 'student' %}
+            <form
+              method="post"
+              action="{{ url_for('events.register_event', event_id=event.id) }}"
+              class="inline-form"
+            >
+              <button class="btn btn-primary" type="submit">Register</button>
+            </form>
+            {% endif %} {% if event.has_voting and elections.get(event.id) %}
+            <a
+              class="btn btn-primary"
+              href="{{ url_for('voting.ballot', election_id=elections.get(event.id).id) }}"
+              >Open Voting</a
+            >
+            {% endif %}
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-state">No ongoing events at the moment.</div>
+      {% endif %}
+    </section>
+
+    <section class="section-card">
+      <div class="section-header">
+        <h2>Finished Events</h2>
+        <span>{{ finished_events|length }} events</span>
+      </div>
+      {% if finished_events %}
+      <div class="module-grid">
+        {% for event in finished_events %}
+        <article class="event-card">
+          <div class="card-top">
+            <span class="badge badge-muted">Finished</span>
+            <span class="card-date"
+              >{{ event.event_date.strftime('%b %d') if event.event_date else
+              'TBA' }}</span
+            >
+          </div>
+          <h3>{{ event.title }}</h3>
+          <div class="meta">
+            <span>{{ event.location or 'Location TBA' }}</span>
+            <span
+              >Organized by {{ event.organizer.name if event.organizer else
+              'Campus Team' }}</span
+            >
+          </div>
+          <p>
+            {{ event.description[:120] }}{% if event.description and
+            event.description|length > 120 %}...{% endif %}
+          </p>
+          <div class="card-actions">
+            <a
+              class="btn btn-secondary"
+              href="{{ url_for('events.event_detail', event_id=event.id) }}"
+              >Details</a
+            >
+            {% if event.has_voting and elections.get(event.id) %}
+            <a
+              class="btn btn-primary"
+              href="{{ url_for('voting.ballot', election_id=elections.get(event.id).id) }}"
+              >Open Voting</a
+            >
+            {% endif %}
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-state">No finished events are recorded yet.</div>
+      {% endif %}
+    </section>
+  </main>
+</div>
+{% endblock %}
