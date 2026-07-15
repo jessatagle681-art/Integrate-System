@@ -1,0 +1,15 @@
+{% extends 'base.html' %} {% block title %}Manage Organizers | Admin{% endblock
+%} {% block content %}
+<div class="container">
+  <h1>Manage Organizers</h1>
+  {% if organizers %}
+  <ul>
+    {% for o in organizers %}
+    <li>{{ o.name }} — {{ o.email }}</li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>No organizers.</p>
+  {% endif %}
+</div>
+{% endblock %}

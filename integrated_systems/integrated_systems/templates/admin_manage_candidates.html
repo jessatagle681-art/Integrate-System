@@ -1,0 +1,15 @@
+{% extends 'base.html' %} {% block title %}Manage Candidates | Admin{% endblock
+%} {% block content %}
+<div class="container">
+  <h1>Manage Candidates</h1>
+  {% if candidates %}
+  <ul>
+    {% for c in candidates %}
+    <li>{{ c.name }} — {{ c.position }} — Election {{ c.election_id }}</li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>No candidates.</p>
+  {% endif %}
+</div>
+{% endblock %}

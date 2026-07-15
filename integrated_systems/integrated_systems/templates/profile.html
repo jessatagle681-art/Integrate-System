@@ -1,0 +1,36 @@
+{% extends 'base.html' %} {% block title %}Profile | Integrated Portal{%
+endblock %} {% block content %}
+<div class="container" style="max-width: 700px; margin: 36px auto">
+  <div class="card" style="padding: 28px; border-radius: 22px">
+    <h2>👤 Profile</h2>
+    <p class="muted">Your student account details.</p>
+    <div style="margin-top: 24px; display: grid; gap: 16px">
+      <div>
+        <strong>Name</strong>
+        <div>{{ user.name }}</div>
+      </div>
+      <div>
+        <strong>Email</strong>
+        <div>{{ user.email }}</div>
+      </div>
+      <div>
+        <strong>Role</strong>
+        <div>{{ user.role|title }}</div>
+      </div>
+      <div>
+        <strong>Member since</strong>
+        <div>
+          {{ user.created_at.strftime('%B %d, %Y') if user.created_at else '—'
+          }}
+        </div>
+      </div>
+    </div>
+    <a
+      class="btn-primary"
+      href="{{ url_for('auth.dashboard') }}"
+      style="margin-top: 24px"
+      >Back to Dashboard</a
+    >
+  </div>
+</div>
+{% endblock %}

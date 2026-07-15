@@ -1,0 +1,15 @@
+{% extends 'base.html' %} {% block title %}Manage Events | Admin{% endblock %}
+{% block content %}
+<div class="container">
+  <h1>Manage Events</h1>
+  {% if events %}
+  <ul>
+    {% for e in events %}
+    <li>{{ e.title }} — {{ e.event_date }} — {{ e.location }}</li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>No events.</p>
+  {% endif %}
+</div>
+{% endblock %}

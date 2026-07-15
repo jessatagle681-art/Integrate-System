@@ -1,0 +1,159 @@
+{% extends 'base.html' %} {% block title %}Login | Integrated Portal{% endblock
+%} {% block content %}
+<style>
+  .login-page {
+    min-height: calc(100vh - 72px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #eef2ff 0%, #f8fafc 100%);
+    padding: 40px 16px;
+  }
+  .login-card {
+    width: 420px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 12px 40px rgba(8, 15, 52, 0.08);
+    padding: 28px;
+  }
+  .login-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .login-brand img {
+    height: 44px;
+    border-radius: 8px;
+  }
+  .login-title {
+    font-size: 20px;
+    margin: 0;
+  }
+  .login-sub {
+    color: #6b7280;
+    margin: 6px 0 12px;
+  }
+  .form-field {
+    margin-bottom: 12px;
+  }
+  .form-field input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #e6edf3;
+  }
+  .form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 12px;
+  }
+  .btn-primary {
+    background: #1d4ed8;
+    color: white;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: none;
+  }
+  .link-muted {
+    color: #6b7280;
+    text-decoration: none;
+    font-size: 14px;
+  }
+  @media (max-width: 480px) {
+    .login-card {
+      width: 100%;
+    }
+  }
+</style>
+
+<div class="login-page">
+  <div class="login-card">
+    <div class="login-brand">
+      <img
+        src="{{ url_for('static', filename='logo.svg') }}"
+        alt="Logo"
+        style="height: 56px"
+      />
+      <div>
+        <h3 class="login-title">Integrated School Portal</h3>
+        <div class="login-sub">
+          Sign in to access events, voting, and your dashboard
+        </div>
+      </div>
+    </div>
+
+    <form method="post" autocomplete="on">
+      <div class="form-field">
+        <label class="muted">Email</label>
+        <input
+          type="email"
+          name="email"
+          required
+          placeholder="you@school.edu"
+        />
+      </div>
+
+      <div class="form-field">
+        <label class="muted">Password</label>
+        <input
+          type="password"
+          name="password"
+          required
+          placeholder="Your password"
+        />
+      </div>
+
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        "
+      >
+        <label style="display: flex; align-items: center; gap: 8px"
+          ><input type="checkbox" name="remember" /> Remember me</label
+        >
+        <a class="link-muted" href="#">Forgot?</a>
+      </div>
+
+      <div class="form-actions">
+        <div></div>
+        <button class="btn-primary" type="submit">Sign In</button>
+      </div>
+    </form>
+
+    <div style="text-align: center; margin-top: 14px; color: #9ca3af">
+      or continue with
+    </div>
+    <div style="display: flex; gap: 8px; margin-top: 10px">
+      <a
+        class="btn"
+        style="
+          flex: 1;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          background: #fff;
+          border: 1px solid #e5e7eb;
+        "
+        >Google</a
+      >
+      <a
+        class="btn"
+        style="
+          flex: 1;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          background: #fff;
+          border: 1px solid #e5e7eb;
+        "
+        >SSO</a
+      >
+    </div>
+  </div>
+</div>
+
+{% endblock %}

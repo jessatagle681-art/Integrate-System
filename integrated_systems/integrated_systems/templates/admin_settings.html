@@ -1,0 +1,36 @@
+{% extends 'base.html' %} {% block title %}Admin Settings | Integrated Portal{%
+endblock %} {% block content %}
+<div class="container">
+  <div class="card">
+    <span class="hero-chip">Admin Settings</span>
+    <h1>System Settings</h1>
+    <p class="muted">
+      Configure global settings, audit controls, and platform defaults.
+    </p>
+    <div class="stats-grid" style="margin-top: 18px">
+      <div class="stat-card">
+        <span class="muted">Theme</span>
+        <strong>Light / Modern</strong>
+      </div>
+      <div class="stat-card">
+        <span class="muted">Notifications</span>
+        <strong>Enabled</strong>
+      </div>
+      <div class="stat-card">
+        <span class="muted">Security Level</span>
+        <strong>Standard</strong>
+      </div>
+      <div class="stat-card">
+        <span class="muted">Audit Mode</span>
+        <strong>Active</strong>
+      </div>
+    </div>
+    <div style="margin-top: 22px">
+      <p class="muted">
+        This page is a placeholder for future admin settings management. Add
+        system configuration and access controls here as the app evolves.
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

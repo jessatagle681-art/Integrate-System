@@ -1,0 +1,12 @@
+{% extends 'base.html' %} {% block title %}Manage Users | Admin{% endblock %} {%
+block content %}
+<div class="container">
+  <h1>Manage Users</h1>
+  <p>List of users (latest first)</p>
+  <ul>
+    {% for u in users %}
+    <li>{{ u.name }} — {{ u.email }} — {{ u.role }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

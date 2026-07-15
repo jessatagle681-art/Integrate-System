@@ -1,0 +1,15 @@
+{% extends 'base.html' %} {% block title %}Manage Elections | Admin{% endblock
+%} {% block content %}
+<div class="container">
+  <h1>Manage Elections</h1>
+  {% if elections %}
+  <ul>
+    {% for e in elections %}
+    <li>{{ e.title }} — {{ e.status }}</li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>No elections.</p>
+  {% endif %}
+</div>
+{% endblock %}

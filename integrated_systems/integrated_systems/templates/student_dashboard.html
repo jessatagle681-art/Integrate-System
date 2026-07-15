@@ -1,0 +1,143 @@
+{% extends 'base.html' %} {% block title %}🎓 Student Dashboard | Integrated
+Portal{% endblock %} {% block head_extras %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/dashboard.css') }}"
+/>
+{% endblock %} {% block content %}
+<div class="dashboard-container">
+  <div class="dashboard-hero">
+    <h2>🎓 Student Dashboard</h2>
+    <p class="muted">
+      Hello {{ user.name }}, welcome back! This is your student hub for events,
+      voting, attendance, certificates, and profile access.
+    </p>
+  </div>
+
+  <div class="dashboard-layout">
+    <aside class="dashboard-sidebar">
+      <h3>Quick Links</h3>
+      <nav>
+        <ul class="sidebar-list">
+          <li>
+            <a class="sidebar-link" href="{{ url_for('auth.dashboard') }}"
+              >🏠 Dashboard</a
+            >
+          </li>
+          <li>
+            <a class="sidebar-link" href="{{ url_for('events.index') }}"
+              >📅 Events</a
+            >
+          </li>
+          <li>
+            <a class="sidebar-link" href="{{ url_for('voting.index') }}"
+              >🗳️ Voting</a
+            >
+          </li>
+          <li>
+            <a class="sidebar-link" href="{{ url_for('events.my_events') }}"
+              >🎟️ My Events</a
+            >
+          </li>
+          <li>
+            <a class="sidebar-link" href="{{ url_for('events.attendance') }}"
+              >✅ Attendance</a
+            >
+          </li>
+          <li>
+            <a class="sidebar-link" href="{{ url_for('events.certificates') }}"
+              >🏆 Certificates</a
+            >
+          </li>
+          <li>
+            <a class="sidebar-link" href="{{ url_for('events.notifications') }}"
+              >🔔 Notifications</a
+            >
+          </li>
+          <li>
+            <a class="sidebar-link" href="{{ url_for('auth.profile') }}"
+              >👤 Profile</a
+            >
+          </li>
+          <li>
+            <a class="sidebar-link" href="{{ url_for('auth.logout') }}"
+              >🚪 Logout</a
+            >
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="dashboard-main">
+      <div class="dashboard-grid">
+        <div class="dashboard-card">
+          <h4>📅 Events</h4>
+          <p class="muted">
+            Browse upcoming school events and register quickly.
+          </p>
+          <a class="btn-primary" href="{{ url_for('events.index') }}"
+            >View Events</a
+          >
+        </div>
+        <div class="dashboard-card">
+          <h4>🗳️ Elections</h4>
+          <p class="muted">See active elections and cast your secure vote.</p>
+          <a class="btn-primary" href="{{ url_for('voting.index') }}"
+            >Go to Voting</a
+          >
+        </div>
+        <div class="dashboard-card">
+          <h4>🔔 Notifications</h4>
+          <p class="muted">
+            Check your latest alerts, event updates, and reminders.
+          </p>
+          <a class="btn-primary" href="{{ url_for('events.notifications') }}"
+            >View Notifications</a
+          >
+        </div>
+        <div class="dashboard-card">
+          <h4>👤 Profile</h4>
+          <p class="muted">Update your student info and account settings.</p>
+          <a class="btn-primary" href="{{ url_for('auth.dashboard') }}"
+            >Open Profile</a
+          >
+        </div>
+      </div>
+
+      <div class="dashboard-card">
+        <h4>Quick Statistics</h4>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span>Total registered events</span>
+            <strong
+              >{{ stats.registered_events if stats and stats.registered_events
+              is defined else 0 }}</strong
+            >
+          </div>
+          <div class="stat-card">
+            <span>Upcoming events</span>
+            <strong
+              >{{ stats.upcoming_events if stats and stats.upcoming_events is
+              defined else 0 }}</strong
+            >
+          </div>
+          <div class="stat-card">
+            <span>Active elections</span>
+            <strong
+              >{{ stats.active_elections if stats and stats.active_elections is
+              defined else 0 }}</strong
+            >
+          </div>
+          <div class="stat-card">
+            <span>Certificates earned</span>
+            <strong
+              >{{ stats.certificates_earned if stats and
+              stats.certificates_earned is defined else 0 }}</strong
+            >
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+{% endblock %}
