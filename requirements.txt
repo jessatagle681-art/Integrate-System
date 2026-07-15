@@ -10,3 +10,4 @@ Flask-Mail==0.10.0
 Flask==3.0.0
 gunicorn==21.2.0
 supabase==2.4.0
+flask_sqlalchemy
