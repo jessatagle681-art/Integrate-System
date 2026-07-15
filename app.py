@@ -5,7 +5,7 @@ from pathlib import Path
 from flask import Flask, redirect, session, url_for
 from extensions import db
 
-BASE_DIR = Path(_file_).resolve().parent
+BASE_DIR = Path(__file__).resolve().parent
 INSTANCE_DIR = BASE_DIR / 'instance'
 INSTANCE_DIR.mkdir(exist_ok=True)
 
@@ -74,5 +74,5 @@ def voting_login_redirect():
     return redirect(url_for('auth.login'))
 
 
-if _name_ == '_main_':
+if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
